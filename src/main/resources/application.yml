@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: quickStart
+server:
+  servlet:
+    context-path: /start
+  port: 8081
