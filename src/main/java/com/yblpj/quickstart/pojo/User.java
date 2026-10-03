@@ -1,6 +1,8 @@
 package com.yblpj.quickstart.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 /**
@@ -22,6 +24,7 @@ public class User {
     /**
      * 密码
      */
+    @JsonIgnore
     private String password;
 
     /**

@@ -5,12 +5,11 @@ import com.yblpj.quickstart.pojo.Result;
 import com.yblpj.quickstart.pojo.User;
 import com.yblpj.quickstart.utils.JwtUtil;
 import com.yblpj.quickstart.utils.MD5Utils;
+import com.yblpj.quickstart.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,5 +56,12 @@ public class UserController {
             return Result.success(token);
         }
         return Result.error("密码不正确。");
+    }
+
+    //获取用户的详细数据
+    @GetMapping("/userInfo")
+    public Result getUserInfo() {
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        return Result.success(userService.findUserByName(claims.get("username").toString()));
     }
 }
