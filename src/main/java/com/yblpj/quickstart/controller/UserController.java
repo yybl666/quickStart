@@ -3,6 +3,7 @@ package com.yblpj.quickstart.controller;
 import com.yblpj.quickstart.Service.UserService;
 import com.yblpj.quickstart.pojo.Result;
 import com.yblpj.quickstart.pojo.User;
+import com.yblpj.quickstart.utils.JwtUtil;
 import com.yblpj.quickstart.utils.MD5Utils;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -46,7 +50,11 @@ public class UserController {
         }
         //存在--密码是否正确
         if(MD5Utils.md5(password).equals(u.getPassword())) {
-            return Result.success("jwt令牌");
+            Map<String,Object> claims = new HashMap<>();
+            claims.put("id",u.getId());
+            claims.put("username",u.getUsername());
+            String token = JwtUtil.genToken(claims);
+            return Result.success(token);
         }
         return Result.error("密码不正确。");
     }
