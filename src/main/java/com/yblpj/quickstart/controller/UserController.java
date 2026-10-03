@@ -64,4 +64,11 @@ public class UserController {
         Map<String,Object> claims = ThreadLocalUtil.get();
         return Result.success(userService.findUserByName(claims.get("username").toString()));
     }
+
+    //更新数据
+    @PutMapping("/update")
+    public Result update(@RequestBody User user) {
+        userService.update(user);
+        return Result.success();
+    }
 }
