@@ -42,4 +42,8 @@ spring提供了validation校验框架。（以 注解@方式）
 
 # 更新用户基本信息
     1.通过请求体提供user对象，只对特定的字段进行更新。
+2024/10/4 22:44
+# 更换用户头像avatar
+    1.在user_pic中存储的不是图片，而是图片存储url。
+    2.id通过thread local获取，updatetime通过mysql的now()方法获取，mapper传送的参数就是url和id。
 
