@@ -1,5 +1,6 @@
 package com.yblpj.quickstart.controller;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.yblpj.quickstart.Service.UserService;
 import com.yblpj.quickstart.pojo.Result;
 import com.yblpj.quickstart.pojo.User;
@@ -9,6 +10,7 @@ import com.yblpj.quickstart.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,6 +79,31 @@ public class UserController {
     @PatchMapping("/updateAvatar")
     public Result updateAvatar(@RequestParam @URL String avatar) {
         userService.updateAvatar(avatar);
+        return Result.success();
+    }
+
+    //更换用户密码
+    @PatchMapping("/updatePwd")
+    public Result updatePwd(@RequestBody Map<String,String> map) {
+        String oldPwd = map.get("oldPwd");
+        String newPwd = map.get("newPwd");
+        String rePwd = map.remove("rePwd");
+        //是否均不为空
+        if(!StringUtils.hasLength(oldPwd) || !StringUtils.hasLength(newPwd) || !StringUtils.hasLength(rePwd)) {
+            return Result.error("参数未填写完整");
+        }
+        //旧密码是否正确
+        Map<String,Object> claims = ThreadLocalUtil.get();
+        Object username = claims.get("username");
+        User u = userService.findUserByName(username.toString());
+        if(!u.getPassword().equals(MD5Utils.md5(oldPwd))) {
+            return Result.error("旧密码不正确");
+        }
+        //新密码是否和re密码一致
+        if(!newPwd.equals(rePwd)) {
+            return Result.error("二次密码不一致");
+        }
+        userService.updatePwd(newPwd);
         return Result.success();
     }
 }

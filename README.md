@@ -46,4 +46,8 @@ spring提供了validation校验框架。（以 注解@方式）
 # 更换用户头像avatar
     1.在user_pic中存储的不是图片，而是图片存储url。
     2.id通过thread local获取，updatetime通过mysql的now()方法获取，mapper传送的参数就是url和id。
+    3.patch请求方法是用于一个局部字段的更新，如果是全部更新则是使用update。
+# 更换密码
+    1.因为之前都是user对象里对应的字段，这次不是，如：oldPwd，newPwd。。。
+    2.采用map的结构将参数存储到里面去。
 
