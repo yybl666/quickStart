@@ -1,6 +1,9 @@
 package com.yblpj.quickstart.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,6 +17,7 @@ public class User {
     /**
      * ID (主键)
      */
+    @NotNull
     private Integer id;
 
     /**
@@ -30,11 +34,14 @@ public class User {
     /**
      * 昵称
      */
+    @NotEmpty
     private String nickname;
 
     /**
      * 邮箱
      */
+    @NotEmpty
+    @Email
     private String email;
 
     /**
