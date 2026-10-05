@@ -2,6 +2,7 @@ package com.yblpj.quickstart.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ public class Category {
     /**
      * ID (主键)
      */
+    @NotNull
     private Integer id;
 
     /**

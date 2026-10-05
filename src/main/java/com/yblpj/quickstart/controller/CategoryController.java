@@ -36,4 +36,10 @@ public class CategoryController {
         return Result.success(categoryService.findById(id));
     }
 
+    //修改文章分类
+    @PutMapping
+    public Result update(@RequestBody @Validated Category category) {
+        categoryService.update(category);
+        return Result.success();
+    }
 }
