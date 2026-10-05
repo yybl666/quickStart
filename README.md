@@ -50,4 +50,8 @@ spring提供了validation校验框架。（以 注解@方式）
 # 更换密码
     1.因为之前都是user对象里对应的字段，这次不是，如：oldPwd，newPwd。。。
     2.采用map的结构将参数存储到里面去。
-
+2026/10/5 14:48
+# 获取所有文章分类列表（list）
+    1.首先根据所请求的用户令牌得到userid，仅仅返回这个对应的文章分类；
+    2.list在mapper里如何判定？直接返回select * 就可以直接得到list的对象。注意要注入userid。
+    3.修改时间格式，可以在pojo上用@JsonFormat（"yyyy-MM-dd HH:mm:ss"）注意一定要大小分辨。
