@@ -3,11 +3,11 @@ package com.yblpj.quickstart.Service.ServiceImpl;
 import com.yblpj.quickstart.Service.CategoryService;
 import com.yblpj.quickstart.mapper.CategoryMapper;
 import com.yblpj.quickstart.pojo.Category;
+import com.yblpj.quickstart.pojo.Result;
 import com.yblpj.quickstart.utils.ThreadLocalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,5 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
         Map<String, Object> map = ThreadLocalUtil.get();
         Integer id = (Integer) map.get("id");
         return categoryMapper.list(id);
+    }
+
+    @Override
+    public Category findById(Integer id) {
+        return categoryMapper.findById(id);
     }
 }
