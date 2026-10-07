@@ -55,3 +55,11 @@ spring提供了validation校验框架。（以 注解@方式）
     1.首先根据所请求的用户令牌得到userid，仅仅返回这个对应的文章分类；
     2.list在mapper里如何判定？直接返回select * 就可以直接得到list的对象。注意要注入userid。
     3.修改时间格式，可以在pojo上用@JsonFormat（"yyyy-MM-dd HH:mm:ss"）注意一定要大小分辨。
+2026/10/7 21:49
+# validation的分组校验
+    1.原因：一般不设置分组默认使用了validation的注解都是在任何请求中都适用，但是，例如在文章分类里，在更新时需要指明id才能知道要改的记录，所以notnull，但是添加时不需要用到id，是自增加的；
+    2.所以，将id进行校验分组独立开来，只在更新时使用。
+## 做法
+    1.在pojo类里定义接口，接口名就是分组名；
+    2.在括号里使用group属性，在controller里的参数里也要指明接口变量属于什么校验组。
+    3.extends Defult可以加入默认组里，就是一开始的默认所有组的Defult。

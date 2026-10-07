@@ -3,6 +3,7 @@ package com.yblpj.quickstart.pojo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.groups.Default;
 import lombok.Data;
 import java.time.LocalDateTime;
 
@@ -15,7 +16,7 @@ public class Category {
     /**
      * ID (主键)
      */
-    @NotNull
+    @NotNull(groups = Update.class)
     private Integer id;
 
     /**
@@ -46,4 +47,8 @@ public class Category {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
+
+    //校验组
+    public interface Update extends Default {}
+    public interface Add extends Default {}
 }
