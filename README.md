@@ -63,3 +63,5 @@ spring提供了validation校验框架。（以 注解@方式）
     1.在pojo类里定义接口，接口名就是分组名；
     2.在括号里使用group属性，在controller里的参数里也要指明接口变量属于什么校验组。
     3.extends Defult可以加入默认组里，就是一开始的默认所有组的Defult。
+# 添加文章功能
+    1.注意如果是time的问题，添加的时候最好实在servie层提前写入，不使用mysql语句now()增加负担。

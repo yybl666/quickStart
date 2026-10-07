@@ -1,6 +1,3 @@
--- 创建数据库
-create database big_event;
-
 -- 使用数据库
 use big_event;
 
