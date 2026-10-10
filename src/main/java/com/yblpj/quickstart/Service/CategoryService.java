@@ -1,5 +1,6 @@
 package com.yblpj.quickstart.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.yblpj.quickstart.pojo.Category;
 import com.yblpj.quickstart.pojo.Result;
 import jakarta.validation.constraints.NotEmpty;
