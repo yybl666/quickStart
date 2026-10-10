@@ -1,6 +1,5 @@
 package com.yblpj.quickstart.controller;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.yblpj.quickstart.Service.UserService;
 import com.yblpj.quickstart.pojo.Result;
 import com.yblpj.quickstart.pojo.User;
@@ -10,12 +9,15 @@ import com.yblpj.quickstart.utils.ThreadLocalUtil;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -24,6 +26,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/register")
     public Result register(@Pattern(regexp = "^\\S{5,16}$") String username,
@@ -56,6 +60,9 @@ public class UserController {
             claims.put("id",u.getId());
             claims.put("username",u.getUsername());
             String token = JwtUtil.genToken(claims);
+            ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
+            String redisToken = "login:token:"+u.getId();
+            operations.set(redisToken,token,12, TimeUnit.HOURS);
             return Result.success(token);
         }
         return Result.error("密码不正确。");
@@ -104,6 +111,7 @@ public class UserController {
             return Result.error("二次密码不一致");
         }
         userService.updatePwd(newPwd);
+        stringRedisTemplate.delete("login:token:"+u.getId());
         return Result.success();
     }
 }
